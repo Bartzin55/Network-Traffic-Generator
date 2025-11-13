@@ -20,7 +20,7 @@ print()
 hashtag_line()
 
 #ip/hostname reequest / solicitação do ip/hostname
-ip_or_hostname = input("Digite o IP/Hostname de destino: ")
+ip_or_hostname = input("Digite o IP (Ipv4 apenas)/Hostname de destino: ")
 
 #port request / solicitação da porta
 strport = input("Digite a porta: ")
