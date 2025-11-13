@@ -6,36 +6,31 @@ This script generates a data packet flood to a specified IP and port. It is usef
 
 ### Future implementations
 
-1. IPv6 compatibility
-2. Packet size configuration (Currently, the size of the sent packet is 1472 bytes.)
-3. Time control between packet transmissions (the user can choose the delay for each packet or send at maximum speed)
-4. Support for Portuguese and English languages.
+1. IPv6 compatibility - Novembro 2025
+2. Latency control between each packet transmission and configuration of the packet size in bytes (Currently, the size of the sent packet is 1472 bytes) - Novembro 2025
+3. Support for Portuguese and English languages - soon
 ---
 <p align="center">
-  <span style="font-size: 16px; font-weight: bold;">⚠️ WARNING ⚠️</span>
+  <span style="font-size: 20px; font-weight: bold;">⚠️ WARNING ⚠️</span><br>
+  <br><span style="font-size: 20px; font-weight: bold;">This code should only be used for network testing and educational purposes..</span>
+  <span style="font-size: 20px; font-weight: bold;">Do not perform network tests without prior authorization from the administrator.</span>
 </p>
-<br>
-
-**This code should only be used for network testing and educational purposes.**
-**Do not perform network tests without prior authorization from the administrator.**
 
 ---
 ---
+
 #### PT-BR
 Este script gera um fluxo de pacotes de dados para um endereço IP e porta especificados. É útil para testar a robustez de um servidor quando há alta demanda de tráfego, e contra ataques DoS e DDoS, ou para fins educacionais.
 
 ### Implementações futuras:
-1. Compatibilidade com IPv6
-2. Configuração do tamanho do pacote (Atualmente, o tamanho do pacote enviado é de 1472 bytes.)
-3. Controle de tempo entre as transmissões de pacotes (o usuário pode escolher o atraso para cada pacote ou enviar na velocidade máxima)
-4. Suporte para os idiomas português e inglês.
+1. Compatibilidade com IPv6 - Novembro 2025
+2. Controle de latência entre cada transmissão de pacote e configuração do tamanho em bytes do pacote (Atualmente, o tamanho do pacote enviado é de 1472 bytes) - Novembro 2025
+3. Suporte para os idiomas português e inglês. - Em breve
 ---
 <p align="center">
-  <span style="font-size: 16px; font-weight: bold;">⚠️ AVISO ⚠️</span>
+  <span style="font-size: 20px; font-weight: bold;">⚠️ AVISO ⚠️</span><br>
+  <span style="font-size: 20px; font-weight: bold;"><br>Este código deve ser usado apenas para testes de rede e fins educacionais.</span>
+  <span style="font-size: 20px; font-weight: bold;">Não realize testes de rede sem autorização prévia do administrador</span>
 </p>
-<br>
-
-**Este código deve ser usado apenas para testes de rede e fins educacionais.**
-**Não realize testes de rede sem autorização prévia do administrador.**
 
 ---
