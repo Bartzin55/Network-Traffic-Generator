@@ -2,7 +2,7 @@
 ##### by: Bartzin55 - https://github.com/Bartzin55/Network-Traffic-Generator
 ---------------------
 #### EN-US
-This script generates a data packet flood to a specified IP and port. It's good for testing the robustness of a server, or for educational purposes.
+This script generates a data packet flood to a specified IP and port. It is useful for testing the robustness of a server when there is high traffic demand, and against DoS and DDoS attacks, or for educational purposes.
 
 ### Future implementations
 
@@ -20,8 +20,9 @@ This script generates a data packet flood to a specified IP and port. It's good 
 **Do not perform network tests without prior authorization from the administrator.**
 
 ---
+---
 #### PT-BR
-Este script gera um fluxo de pacotes de dados para um endereço IP e porta especificados. É útil para testar a robustez de um servidor ou para fins educacionais.
+Este script gera um fluxo de pacotes de dados para um endereço IP e porta especificados. É útil para testar a robustez de um servidor quando há alta demanda de tráfego, e contra ataques DoS e DDoS, ou para fins educacionais.
 
 ### Implementações futuras:
 1. Compatibilidade com IPv6
