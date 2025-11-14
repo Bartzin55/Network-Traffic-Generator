@@ -7,7 +7,7 @@ This script generates a data packet flood to a specified IP and port. It is usef
 ### Future implementations
 
 1. Latency control between each packet transmission - Noveember 2025
-2. Configuration of the packet size in bytes (Currently, the size of the sent packet is 1472 bytes) - November 2025
+2. Configuration of the packet size in bytes (Currently, the size of the sent packet is 1472 bytes) - Already Released on November 14, 2025 ✅
 2. IPv6 compatibility - November 2025
 3. Support for Portuguese and English languages - soon
 ---
@@ -25,7 +25,7 @@ Este script gera um fluxo de pacotes de dados para um endereço IP e porta espec
 
 ### Implementações futuras:
 1. Controle de latência entre cada transmissão de pacote - Novembro de 2025
-2. Configuração do tamanho em bytes do pacote (Atualmente, o tamanho do pacote enviado é de 1472 bytes) - Novembro de 2025
+2. Configuração do tamanho em bytes do pacote (Atualmente, o tamanho do pacote enviado é de 1472 bytes) - Já lançado em 14//11/2025 ✅
 2. Compatibilidade com IPv6 - Novembro de 2025
 3. Suporte para os idiomas português e inglês. - Em breve
 ---
