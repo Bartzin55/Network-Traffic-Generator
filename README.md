@@ -1,5 +1,6 @@
 ### **Network Traffic Generator - Gerador de tráfego de rede**
 ##### by: Bartzin55 - https://github.com/Bartzin55/Network-Traffic-Generator
+#### Changelog: [CHANGELOG.md](CHANGELOG.md)
 ---------------------
 #### EN-US
 This script generates a data packet flood to a specified IP and port. It is useful for testing the robustness of a server when there is high traffic demand, and against DoS and DDoS attacks, or for educational purposes.
