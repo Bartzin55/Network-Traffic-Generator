@@ -1,8 +1,7 @@
 
-import socket, os, sys, time
+import socket, os, sys, time, threading
 
 packetcount = 1 # only for counting the number of packages sent / somente para fazer a contagem de pacotes enviados
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 #Lines for formatting the program in the terminal / linhas para formatação do programa no terminal
 def hashtag_line():
@@ -12,16 +11,27 @@ def line():
     print("-----------------------------------------------------------------------------------------------------------")
 
 def clear_terminal():
-    os.system('cls' if os.name == 'nt' else 'clear')
+    if os.name == 'nt':
+        os.system('cls')
+    else: 
+        os.system('clear')
 
 #presentation / apresentacao
 clear_terminal()
 hashtag_line()
 print()
 print("                                         Network Traffic Generator")
-print("                 Github Repository: https://github.com/Bartzin55/Network-Traffic-Generator")
+print("                 Repositório GitHub: https://github.com/Bartzin55/Network-Traffic-Generator")
 print()
 hashtag_line()
+protocol_choice = input("\nEscolha o protocolo (TCP/UDP): ").lower()
+
+if protocol_choice == "udp":
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+elif protocol_choice == "tcp":
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+else:
+    print("Opção inválida")
 
 #ip/hostname request / solicitação do ip/hostname
 ip_or_hostname = input("\nEnter the destination hostname or IP address (Ipv4 only) or Hostname: ")
@@ -49,6 +59,8 @@ except:
 if packetsize < 1 or packetsize > 9000:
     print("Invalid value (minimum: 1 | Maximum: 9000)")
     sys.exit()
+
+######################################################################
 
 #destination in a tuple (ip, port) / destino em uma tupla (ip, porta)
 destination = (ip_or_hostname,port)
@@ -87,18 +99,24 @@ if confirmation != "y" and confirmation != "Y":
     print("Operation cancelled.")
     sys.exit()
 
-print()
-time.sleep(0.7)
-print(".",end="",flush=True)
-time.sleep(0.7)
-print(".",end="",flush=True)
-time.sleep(0.7)
-print(".",end="",flush=True)
-time.sleep(0.7)
-print()
-
 #sending packets / enviando pacotes
-while True:
-    sock.sendto(packet,destination)
-    print(f"Sent {packetcount} data packet to {ip_or_hostname}:{port} | Packet size: {packetsize} bytes")
-    packetcount += 1
+if protocol_choice == "udp":
+    while True:
+        sock.sendto(packet,destination)
+        if packetcount % 10000 == 0:
+            print(f"Sent {packetcount} data packet to {ip_or_hostname}:{port} | Packet size: {packetsize} bytes")
+        packetcount += 1
+else:
+        
+    sock.settimeout(5) 
+    while True:
+        try:
+            sock.connect(destination)
+        except:
+            print("Destination not found.")
+            sys.exit()
+            sock.send(packet)
+            if packetcount % 10000 == 0:
+                print(f"Sent {packetcount} data packet to {ip_or_hostname}:{port} | Packet size: {packetsize} bytes")
+            packetcount += 1
+

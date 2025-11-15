@@ -8,9 +8,10 @@ This script generates a data packet flood to a specified IP and port. It is usef
 ### Future implementations
 
 1. Latency control between each packet transmission - Noveember 2025
-2. Configuration of the packet size in bytes (Currently, the size of the sent packet is 1472 bytes) - Already Released on November 14, 2025 ✅
-2. IPv6 compatibility - November 2025
-3. Support for Portuguese and English languages - soon
+2. Configuration of the packet size in bytes (Currently, the size of the sent packet is 1472 bytes) - <span style="color: lightgreen;">Already Released on November 14, 2025 ✅</span>
+3. IPv6 compatibility - November 2025
+4. TCP floods - November 2025 - <span style="color: lightgreen;">Already Released on November 15, 2025 ✅</span>
+5. Support for English language - December 2025
 ---
 <p align="center">
   <span style="font-size: 20px; font-weight: bold;">⚠️ WARNING ⚠️</span><br>
