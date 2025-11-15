@@ -115,6 +115,7 @@ else:
         sys.exit() 
 
     while True:
+        sock.close()
         sock.connect(destination)
         sock.send(packet)
         if packetcount % 10000 == 0:
