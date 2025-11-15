@@ -115,8 +115,6 @@ else:
         sys.exit() 
 
     while True:
-        sock.close()
-        sock.connect(destination)
         sock.send(packet)
         if packetcount % 10000 == 0:
             print(f"Sent {packetcount} data packet to {ip_or_hostname}:{port} | Packet size: {packetsize} bytes")
