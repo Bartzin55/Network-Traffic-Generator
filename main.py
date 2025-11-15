@@ -24,13 +24,9 @@ print("                                         Network Traffic Generator")
 print("                 Repositório GitHub: https://github.com/Bartzin55/Network-Traffic-Generator")
 print()
 hashtag_line()
-protocol_choice = input("\nEscolha o protocolo (TCP/UDP): ").lower()
+protocol_choice = input("\nEscolha o protocolo (tcp/udp): ")
 
-if protocol_choice == "udp":
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-elif protocol_choice == "tcp":
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-else:
+if protocol_choice != "udp" and protocol_choice != "tcp":
     print("Opção inválida")
 
 #ip/hostname request / solicitação do ip/hostname
@@ -102,20 +98,24 @@ if confirmation != "y" and confirmation != "Y":
 #sending packets / enviando pacotes
 if protocol_choice == "udp":
     while True:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.sendto(packet,destination)
         if packetcount % 10000 == 0:
             print(f"Sent {packetcount} data packet to {ip_or_hostname}:{port} | Packet size: {packetsize} bytes")
         packetcount += 1
 else:
-    sock.settimeout(5)
-    try:
-        sock.connect(destination)
-    except:
-        print("Destination not found.")
-        sys.exit() 
-
     while True:
-        sock.send(packet)
+        try:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(3)
+            sock.connect(destination)
+            sock.send(packet)
+            sock.close()
+            packetcount =+ 1
+        except:
+            print("Destination not found.")
+            sys.exit()
+             
         if packetcount % 10000 == 0:
             print(f"Sent {packetcount} data packet to {ip_or_hostname}:{port} | Packet size: {packetsize} bytes")
         packetcount += 1
