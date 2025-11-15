@@ -116,7 +116,7 @@ else:
             print("Destination not found.")
             sys.exit()
              
-        if packetcount % 10000 == 0:
+        if packetcount % 10 == 0:
             print(f"Sent {packetcount} data packet to {ip_or_hostname}:{port} | Packet size: {packetsize} bytes")
         packetcount += 1
 
