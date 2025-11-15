@@ -107,14 +107,14 @@ if protocol_choice == "udp":
             print(f"Sent {packetcount} data packet to {ip_or_hostname}:{port} | Packet size: {packetsize} bytes")
         packetcount += 1
 else:
+    sock.settimeout(5)
+    try:
+        sock.connect(destination)
+    except:
+        print("Destination not found.")
+        sys.exit() 
         
-    sock.settimeout(5) 
     while True:
-        try:
-            sock.connect(destination)
-        except:
-            print("Destination not found.")
-            sys.exit()
         sock.send(packet)
         if packetcount % 10000 == 0:
             print(f"Sent {packetcount} data packet to {ip_or_hostname}:{port} | Packet size: {packetsize} bytes")
