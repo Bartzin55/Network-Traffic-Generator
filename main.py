@@ -112,10 +112,8 @@ else:
             sock.send(packet)
             sock.close()
             packetcount =+ 1
+            print(f"Sent {packetcount} data packet to {ip_or_hostname}:{port} | Packet size: {packetsize} bytes")
         except:
             print("Destination not found.")
             sys.exit()
-             
-        if packetcount % 10 == 0:
-            print(f"Sent {packetcount} data packet to {ip_or_hostname}:{port} | Packet size: {packetsize} bytes")
 
