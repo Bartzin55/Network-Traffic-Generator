@@ -111,7 +111,7 @@ else:
             sock.connect(destination)
             sock.send(packet)
             sock.close()
-            packetcount =+ 1
+            packetcount += 1
             print(f"Sent {packetcount} data packet to {ip_or_hostname}:{port} | Packet size: {packetsize} bytes")
         except:
             print("Destination not found.")
