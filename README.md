@@ -7,11 +7,11 @@ This script generates a data packet flood to a specified IP and port. It is usef
 
 ### Future implementations
 
-1. Latency control between each packet transmission - Noveember 2025
-2. Configuration of the packet size in bytes (Currently, the size of the sent packet is 1472 bytes) - <span style="color: lightgreen;">Already Released on November 14, 2025 ✅</span>
+1. Latency control between each packet transmission - November 2025
+2. Configuration of the packet size in bytes - <span style="color: lightgreen;">Already Released on November 14, 2025 ✅</span>
 3. IPv6 compatibility - November 2025
 4. TCP floods - November 2025 - <span style="color: lightgreen;">Already Released on November 15, 2025 ✅</span>
-5. Support for English language - December 2025
+5. Support for Portugues language - Soon
 ---
 <p align="center">
   <span style="font-size: 20px; font-weight: bold;">⚠️ WARNING ⚠️</span><br>
@@ -26,10 +26,11 @@ This script generates a data packet flood to a specified IP and port. It is usef
 Este script gera um fluxo de pacotes de dados para um endereço IP e porta especificados. É útil para testar a robustez de um servidor quando há alta demanda de tráfego, e contra ataques DoS e DDoS, ou para fins educacionais.
 
 ### Implementações futuras:
-1. Controle de latência entre cada transmissão de pacote - Novembro de 2025
-2. Configuração do tamanho em bytes do pacote (Atualmente, o tamanho do pacote enviado é de 1472 bytes) - Já lançado em 14//11/2025 ✅
-2. Compatibilidade com IPv6 - Novembro de 2025
-3. Suporte para os idiomas português e inglês. - Em breve
+1. Controle de latência entre cada transmissão de pacotes - Novembro de 2025
+2. Configuraçã odo tamanho dos pacotes de dados em bytes - <span style="color: lightgreen;">Already Released on November 14, 2025 ✅</span>
+3. Compatibilidade com IPv6 - Novembro de 2025
+4. TCP floods - Novembro de 2025 - <span style="color: lightgreen;">Already Released on November 15, 2025 ✅</span>
+5. Suporte para o idioma português - Em breve
 ---
 <p align="center">
   <span style="font-size: 20px; font-weight: bold;">⚠️ AVISO ⚠️</span><br>
