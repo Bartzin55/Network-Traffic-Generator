@@ -25,7 +25,7 @@ Licence: [MIT License](https://github.com/Bartzin55/Network-Traffic-Generator/bl
 O Network Traffic Generator é uma ferramenta robusta, fácil de usar, open-source e grátis, que gera tráfego de dados para um host de destino.
 Fornecendo o hostname, ou o IP de destino de um host, a ferramenta gera datagramas IP com dados aleatórios, e os envia ao destino.
 
-**No setup de inicialização, você pode definir parâmetros adicionais como:**
+**No setup de inicialização, você pode definir parâmetros adicionais:**
 * Protocolo de transporte: O usuário pode definir se deseja enviar os dados utilizando TCP ou UDP;
 * Porta: Defina a porta específica para o envio dos pacotes (ou defina como 0 para um um loop que escaneie todas as portas (1 a 65535));
 * Tamanho em bytes do pacote: O usuário pode especificar o tamanho do pacote, em bytes, caso você tenha conhecimento do máximo suportado pela rede em que o tráfego vai passar (MTU). (Se você não ter esse conehcimento, deixe o valor como 0, e o pacote enviadoserá de 1400 bytes, que é um valor seguro suportado pela maior parte das redes).
