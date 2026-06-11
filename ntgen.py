@@ -2,8 +2,8 @@ import argparse
 import sys
 import functions
 import time
-# import socket
-
+import socket
+import os
 
 parser = argparse.ArgumentParser(
     description="A Python CLI tool for generating data traffic on a network.\n\n COMMAND | DESCRIPTION | Data type and restrictions | Default",
@@ -64,10 +64,17 @@ if len(sys.argv) == 1:
 
 args = parser.parse_args()
 
+socket_type = socket.SOCK_STREAM if args.t in ['t', 'tcp'] else socket.SOCK_DGRAM
+infos = socket.getaddrinfo(args.destination, args.p, type=socket_type)
+family, socket_type, protocol, dns_name, ip_port_destination = infos[0]
+sock = socket.socket(family, socket_type, protocol)
+
 i = 1
 try:
     match args.t:
         case 't' | 'tcp':
+            resolved_ip = ip_port_destination[0]
+            #TODO: Data packet construct
             if args.p == 0:
                 args.p = 1
                 while args.c > 0:
@@ -93,13 +100,16 @@ try:
                     args.c = args.c-1
 
         case 'u' | 'udp':
+            data_packet = os.urandom(args.s)
+            resolved_ip = ip_port_destination[0]
+
             if args.p == 0:
                 args.p = 1
                 while args.c > 0:
 
-                    ... #TODO: socket logic for UDP data transfer
-
+                    sock.sendto(data_packet, (resolved_ip, args.p))
                     print(f"Sent {i} {args.s}-byte data packets over UDP protocol to destination: {args.destination}:{args.p:05d}")
+                    
                     time.sleep(args.i)
                     i = i+1
                     args.p = args.p+1
@@ -110,9 +120,9 @@ try:
             else:
                 while args.c > 0:
 
-                    ... #TODO: socket logic for UDP data transfer
-
+                    sock.sendto(data_packet, (resolved_ip, args.p))
                     print(f"Sent {i} {args.s}-byte data packets over UDP protocol to destination: {args.destination}:{args.p:05d}")
+                    
                     time.sleep(args.i)
                     i = i+1
                     args.c = args.c-1
