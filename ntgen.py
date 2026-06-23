@@ -84,21 +84,25 @@ try:
 
     match args.t: 
         case 't' | 'tcp': # if protocol == TCP
-           # if family == socket.AF_INET:
             target_addr = ip_port_destination
-           # else:
-            #target_addr = (resolved_ip, args.p, 0, 0) #if IP is v6
             
             while args.c > 0: # iterates until the number of packets defined by the user reaches 0.
-                sock = socket.socket(family, socket_type, protocol)
-                sock.settimeout(3)
-                sock.connect(target_addr) # handshake
-                sock.sendall(data_packet) # send packet
-                sock.close() # close connection
-                print(f"Sent {i} {args.s}-byte data packets over TCP protocol to destination: {resolved_ip}:{args.p:05d}") # print for user
-                time.sleep(args.i) # interval defined by user
-                i = i+1
-                args.c = args.c-1
+                try:
+                    sock = socket.socket(family, socket_type, protocol)
+                    sock.settimeout(3)
+                    sock.connect(target_addr) # handshake
+                    sock.sendall(data_packet) # send packet
+                    sock.close() # close connection
+                    print(f"Sent {i} {args.s}-byte data packets over TCP protocol to destination: {resolved_ip}:{args.p:05d}") # print for user
+                    time.sleep(args.i) # interval defined by user
+                except (socket.gaierror, ConnectionRefusedError, BrokenPipeError, ConnectionResetError, socket.timeout) as e:
+                    print(f"Packet {i} not sent | Connection error: Network Failure - Exception: {e}.")
+                    try: sock.close() 
+                    except: pass
+
+                finally:
+                    i = i+1
+                    args.c = args.c-1
 
         case 'u' | 'udp':
             sock = socket.socket(family, socket_type, protocol)
@@ -121,10 +125,7 @@ try:
                     args.c = args.c-1
             
             else: # user defined a specific port
-                if family == socket.AF_INET:
-                    target_addr = (resolved_ip, args.p) # if IP is v6
-                else:
-                    target_addr = (resolved_ip, args.p, 0, 0) # if IP is v6
+                target_addr = ip_port_destination
 
                 while args.c > 0: # iterates until the number of packets defined by the user reaches 0.
                     sock.sendto(data_packet, target_addr)
@@ -136,16 +137,11 @@ try:
 
         case _: pass
 
-except KeyboardInterrupt:
-    print("Data transfer stopped by user.")
-
 except socket.gaierror as e:
     print(f"DNS Error: failure to resolve destination.\nException: {e}")
 
-except (ConnectionRefusedError, BrokenPipeError, ConnectionResetError, socket.timeout) as e:
-    print(f"Connection error: Network Failure.\nException: {e}.")
+except KeyboardInterrupt:
+    print("Data transfer stopped by user.")
 
 except Exception as e:
     print(f"Unknown error.\nException: {e}.")
-
-

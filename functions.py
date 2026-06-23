@@ -39,9 +39,9 @@ def validate_interval(value: str) -> float:
     try:
         interval = float(value)
     except ValueError:
-        raise argparse.ArgumentTypeError(f"argument -i: invalid value: {value} (Provide an float value greater than or equal to 0.)")
+        raise argparse.ArgumentTypeError(f"argument -i: invalid value: {value} (Provide a float value greater than or equal to 0.)")
     
     if interval < 0:
-        raise argparse.ArgumentTypeError(f"argument -i: invalid value: {value} (Provide an float value greater than or equal to 0.)")
+        raise argparse.ArgumentTypeError(f"argument -i: invalid value: {value} (Provide a float value greater than or equal to 0.)")
         
     return interval
