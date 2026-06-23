@@ -1,21 +1,23 @@
-import argparse
-import sys
-import functions
-import time
-import socket
-import os
+import argparse # All interface with user.
+import sys # for sys.exit - Closes program
+import functions # auxiliar functions
+import time # for time.sleep - apply intervals between data packet transfer
+import socket # all network logic
+import os # for os.urandom - generate random data
 
 parser = argparse.ArgumentParser(
     description="A Python CLI tool for generating data traffic on a network.\n\n COMMAND | DESCRIPTION | Data type and restrictions | Default",
     formatter_class=argparse.RawDescriptionHelpFormatter
 )
 
+# Destination: The user can provide a IPv4, IPv6 or a dns name.
 parser.add_argument(
     'destination',
     type=str,
     help="Destination IP address or hostname or DNS name | string | No default"
 )
 
+# port: layer 4 port, if the user set to 0, the program logic its configrued to scan all ports. Only for UDP
 parser.add_argument(
     '-p',
     type=functions.validate_port, 
@@ -24,6 +26,7 @@ parser.add_argument(
     metavar="<PORT NUMBER>"
 )
 
+# protocol: UDP or TCP protocol
 parser.add_argument(
     '-t',
     type=str.lower,
@@ -33,6 +36,7 @@ parser.add_argument(
     metavar="<PROTOCOL>"
 )
 
+# count: number of packets sent by the script
 parser.add_argument(
     '-c',
     type=functions.validate_count, 
@@ -41,6 +45,7 @@ parser.add_argument(
     metavar="<COUNT>"
 )
 
+# interval: time interval in seconds between each packet
 parser.add_argument(
     '-i',
     type=functions.validate_interval, 
@@ -49,6 +54,7 @@ parser.add_argument(
     metavar="<INTERVAL>"
 )
 
+# Size: packet size in bits
 parser.add_argument(
     '-s',
     type=functions.validate_size, 
@@ -64,72 +70,82 @@ if len(sys.argv) == 1:
 
 args = parser.parse_args()
 
-socket_type = socket.SOCK_STREAM if args.t in ['t', 'tcp'] else socket.SOCK_DGRAM
-infos = socket.getaddrinfo(args.destination, args.p, type=socket_type)
-family, socket_type, protocol, dns_name, ip_port_destination = infos[0]
-sock = socket.socket(family, socket_type, protocol)
+# Applies the mandatory condition of the "-p" argument if the "-t" argument is TCP.
+if args.t in ['t', 'tcp'] and args.p == 0:
+    parser.error("The -p(layer 4 port) is required in a TCP transmission.")
 
-i = 1
 try:
-    match args.t:
-        case 't' | 'tcp':
-            resolved_ip = ip_port_destination[0]
-            #TODO: Data packet construct
-            if args.p == 0:
-                args.p = 1
-                while args.c > 0:
+    socket_type = socket.SOCK_STREAM if args.t in ['t', 'tcp'] else socket.SOCK_DGRAM # Defines the correct protocol on the socket, according to the user's choice.
+    infos = socket.getaddrinfo(args.destination, args.p, type=socket_type) 
+    family, socket_type, protocol, dns_name, ip_port_destination = infos[0]
+    resolved_ip = ip_port_destination[0]
+    data_packet = os.urandom(args.s) # generates a data packet of the size defined by the user.
+    i = 1
 
-                    ... #TODO: socket logic for TCP data transfer
-
-                    print(f"Sent {i} {args.s}-byte data packets over TCP protocol to destination: {args.destination}:{args.p:05d}")
-                    time.sleep(args.i)
-                    i = i+1
-                    args.p = args.p+1
-                    if args.p == 65536:
-                        args.p = 1
-                    args.c = args.c-1
+    match args.t: 
+        case 't' | 'tcp': # if protocol == TCP
+           # if family == socket.AF_INET:
+            target_addr = ip_port_destination
+           # else:
+            #target_addr = (resolved_ip, args.p, 0, 0) #if IP is v6
             
-            else:
-                while args.c > 0:
-
-                    ... #TODO: socket logic for TCP data transfer
-
-                    print(f"Sent {i} {args.s}-byte data packets over TCP protocol to destination: {args.destination}:{args.p:05d}")
-                    time.sleep(args.i)
-                    i = i+1
-                    args.c = args.c-1
+            while args.c > 0: # iterates until the number of packets defined by the user reaches 0.
+                sock = socket.socket(family, socket_type, protocol)
+                sock.settimeout(3)
+                sock.connect(target_addr) # handshake
+                sock.sendall(data_packet) # send packet
+                sock.close() # close connection
+                print(f"Sent {i} {args.s}-byte data packets over TCP protocol to destination: {resolved_ip}:{args.p:05d}") # print for user
+                time.sleep(args.i) # interval defined by user
+                i = i+1
+                args.c = args.c-1
 
         case 'u' | 'udp':
-            data_packet = os.urandom(args.s)
-            resolved_ip = ip_port_destination[0]
-
-            if args.p == 0:
+            sock = socket.socket(family, socket_type, protocol)
+            if args.p == 0: # port scan
                 args.p = 1
-                while args.c > 0:
-
-                    sock.sendto(data_packet, (resolved_ip, args.p))
-                    print(f"Sent {i} {args.s}-byte data packets over UDP protocol to destination: {args.destination}:{args.p:05d}")
+                while args.c > 0: # iterates until the number of packets defined by the user reaches 0.
+                    if family == socket.AF_INET:
+                        target_addr = (resolved_ip, args.p) # if IP is v4
+                    else:
+                        target_addr = (resolved_ip, args.p, 0, 0) # if IP is v6
                     
-                    time.sleep(args.i)
+                    sock.sendto(data_packet, target_addr)
+                    print(f"Sent {i} {args.s}-byte data packets over UDP protocol to destination: {resolved_ip}:{args.p:05d}") # print for user
+                    
+                    time.sleep(args.i) # interval defined by user
                     i = i+1
                     args.p = args.p+1
                     if args.p == 65536:
                         args.p = 1
                     args.c = args.c-1
             
-            else:
-                while args.c > 0:
+            else: # user defined a specific port
+                if family == socket.AF_INET:
+                    target_addr = (resolved_ip, args.p) # if IP is v6
+                else:
+                    target_addr = (resolved_ip, args.p, 0, 0) # if IP is v6
 
-                    sock.sendto(data_packet, (resolved_ip, args.p))
-                    print(f"Sent {i} {args.s}-byte data packets over UDP protocol to destination: {args.destination}:{args.p:05d}")
-                    
-                    time.sleep(args.i)
+                while args.c > 0: # iterates until the number of packets defined by the user reaches 0.
+                    sock.sendto(data_packet, target_addr)
+                    print(f"Sent {i} {args.s}-byte data packets over UDP protocol to destination: {resolved_ip}:{args.p:05d}") # print for user
+
+                    time.sleep(args.i) # interval defined by user
                     i = i+1
                     args.c = args.c-1
 
         case _: pass
 
 except KeyboardInterrupt:
-    print("Data transfer stopped.")
+    print("Data transfer stopped by user.")
 
-#TODO: Add other socket error exceptions.
+except socket.gaierror as e:
+    print(f"DNS Error: failure to resolve destination.\nException: {e}")
+
+except (ConnectionRefusedError, BrokenPipeError, ConnectionResetError, socket.timeout) as e:
+    print(f"Connection error: Network Failure.\nException: {e}.")
+
+except Exception as e:
+    print(f"Unknown error.\nException: {e}.")
+
+
